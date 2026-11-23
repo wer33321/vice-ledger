@@ -267,6 +267,22 @@ def cmd_fmt(a):
     return 0
 
 
+def cmd_stats(a):
+    repo = config.find_repo()
+    for bid in store.list_builds(repo):
+        recs, _ = store.load_records(repo, bid)
+        build = store.load_build(repo, bid) or {}
+        out("%s  %s" % (bid, build.get("label", "")))
+        for kind in model.KINDS:
+            rs = [r for r in recs.values() if r["kind"] == kind]
+            if rs:
+                by = {s: sum(1 for r in rs if r["status"] == s) for s in model.STATUSES}
+                out("  %-9s %6d   auto %d / manual %d / reviewed %d" % (kind, len(rs), by["auto"], by["manual"], by["reviewed"]))
+    if not store.list_builds(repo):
+        out("No builds registered yet.")
+    return 0
+
+
 def cmd_review(a):
     repo, cfg, build = _ctx(a, ("build_id", "contributor"))
     recs, _ = store.load_records(repo, build["build_id"])
@@ -383,6 +399,9 @@ def build_parser():
 
     s = sub.add_parser("fmt", help="rewrite db/ files in canonical form")
     s.set_defaults(fn=cmd_fmt)
+
+    s = sub.add_parser("stats", help="show how many findings exist per build and status")
+    s.set_defaults(fn=cmd_stats)
     return p
 
 

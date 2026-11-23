@@ -1,0 +1,17 @@
+name: Bug report
+description: Something in the tooling or Ghidra scripts misbehaves
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Include the command and its full output. Do NOT paste game code or disassembly.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Ghidra / Python / OS versions
+    validations:
+      required: true

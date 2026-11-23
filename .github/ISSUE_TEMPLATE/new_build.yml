@@ -1,0 +1,17 @@
+name: New build request
+description: Register a new GTA VI executable version
+labels: [build]
+body:
+  - type: input
+    id: sha
+    attributes:
+      label: SHA-256 of the executable
+      description: Output of `python gtare.py init --register-build` (hash only, never the file).
+    validations:
+      required: true
+  - type: input
+    id: label
+    attributes:
+      label: Version / store / platform
+    validations:
+      required: true
