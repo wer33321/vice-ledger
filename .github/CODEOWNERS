@@ -1,0 +1,5 @@
+# Maintainers must approve anything outside the data directory.
+/tools/ @wer33321
+/ghidra_scripts/ @wer33321
+/.github/ @wer33321
+/docs/ @wer33321

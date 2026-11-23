@@ -1,0 +1,36 @@
+# Local, per-contributor files: NEVER commit these.
+gtare.local.json
+.gtare/
+
+# Game files and anything derived from them
+*.exe
+*.dll
+*.sys
+*.bin
+*.dmp
+*.mdmp
+*.pdb
+*.rpf
+*.zip
+*.7z
+*.rar
+*.iso
+*.asm
+*.dis
+
+# Ghidra projects and exports
+*.gpr
+*.rep/
+*.lock
+*.lock~
+*.gzf
+*.gdt
+*.bak
+ghidra_projects/
+projects/
+
+# Python / editor
+__pycache__/
+*.pyc
+.vscode/
+.idea/

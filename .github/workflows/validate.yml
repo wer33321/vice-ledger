@@ -1,0 +1,49 @@
+name: validate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Never trust the validator shipped inside the PR itself: use the base branch's copy.
+      - name: Use trusted validator from base branch
+        if: github.event_name == 'pull_request'
+        run: git checkout "origin/${{ github.base_ref }}" -- tools gtare.py
+
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+
+      # Fails on executables, archives, dumps, Ghidra projects, assembly/decompiler text,
+      # hex/base64 blobs, malformed or conflicting records and non-canonical JSON.
+      - name: Validate database and prohibited content (whole repository)
+        if: github.event_name == 'push'
+        run: python gtare.py validate
+
+      # Contributor PRs: only db/ may change, and nobody can self-assign 'reviewed'
+      # unless a maintainer applied the 'tooling' or 'review-approved' label.
+      - name: Validate pull request
+        if: github.event_name == 'pull_request'
+        env:
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+          BASE: origin/${{ github.base_ref }}
+        run: |
+          args="--base $BASE"
+          case ",$LABELS," in *,tooling,*) ;; *) args="$args --data-only";; esac
+          case ",$LABELS," in *,review-approved,*) args="$args --allow-review";; esac
+          python gtare.py validate $args
