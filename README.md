@@ -75,7 +75,7 @@ No headless Ghidra? Use the Script Manager flow: `pull --bundle-only` then `pull
 
 ## Status
 
-Early. The Python tooling is unit-tested with synthetic data; the Ghidra scripts have not yet been validated against a real Ghidra install, so please report problems via issues.
+Early. The Python tooling is unit-tested with synthetic data. `export` has been verified against a real PE program in Ghidra 12.2 (via PyGhidra); `pull`/import is still awaiting a real-world test, so please report problems via issues. Ghidra 12+ has no Jython: install PyGhidra (`pip install pyghidra`), the tool picks the right runner automatically.
 
 ## Legal
 

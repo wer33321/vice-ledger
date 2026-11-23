@@ -7,7 +7,7 @@ import shutil
 import subprocess
 import sys
 
-from . import SCHEMA_VERSION, __version__, canon, config, exporter, ghidra, gitops, importer, model, safety, store
+from . import SCHEMA_VERSION, __version__, canon, config, exporter, ghidra_launch as ghidra, gitops, importer, model, safety, store
 from .config import ConfigError
 
 

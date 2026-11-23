@@ -92,7 +92,7 @@ def category_namespace(dt):
     return "::".join(parts)
 
 
-AUTO_CATEGORIES = ("Demangler", "ClassDataTypes", "PE", "DWARF", "ELF")  # created by Ghidra analyzers/loaders
+AUTO_CATEGORIES = ("Demangler", "ClassDataTypes", "PE", "DWARF", "ELF", "DOS", "PDB", "COFF", "Mach-O")  # created by loaders/analyzers
 
 
 def export_types(prog):

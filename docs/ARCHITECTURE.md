@@ -16,7 +16,7 @@
 8. **Versioning.** `schema` per record, `x-` extension fields, explicit unknown-field errors.
 
 ## Known limitations
-- The Ghidra scripts could not be executed in the development environment (no Ghidra install, no game binary); the Python core is covered by unit tests with synthetic snapshots, and the scripts are untested against a real Ghidra - expect small API fixes. Headless Python scripts need Jython (Ghidra 11.x) or PyGhidra; otherwise use the GUI flow.
+- Export has run against a real program in Ghidra 12.2 (PyGhidra); import is not yet field-tested, and the Python core is covered by unit tests with synthetic snapshots - expect small API fixes. Ghidra 11.x runs the scripts with Jython inside `analyzeHeadless`; Ghidra 12+ (no Jython) runs them through PyGhidra (`pip install pyghidra`), selected automatically by `ghidra_launch.py`.
 - Type names must be plain identifiers (no templates/spaces yet); such types are reported as skipped. Types are matched by simple name, namespace comes from the Ghidra category path.
 - Not yet covered: unions, bitfields, packed structs, vtable/RTTI discovery, local variables, per-instruction comments (comments on instructions would risk leaking listings), cross-build function matching (would need non-byte fingerprints), deletions propagation.
 - Import is not transactional per record beyond Ghidra's script transaction; save/inspect the program afterwards.
